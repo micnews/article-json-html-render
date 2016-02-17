@@ -84,3 +84,32 @@ test('text elements', t => {
   t.equal(actual, expected);
   t.end();
 });
+
+test('text', t => {
+  const Article = setupArticle({embeds: {}});
+  const items = [
+    {
+      type: 'paragraph',
+      children: [
+        {type: 'text', content: 'foo'},
+        {type: 'text', content: 'foz', href: 'http://disney.com'},
+        {type: 'text', content: 'fez', italic: true},
+        {type: 'text', content: 'fiz', bold: true},
+        {type: 'text', content: 'faz', italic: true, bold: true, href: 'http://mic.com'}
+      ]
+    }
+  ];
+  const actual = string.render(<Article items={items} />);
+  const expected = string.render(<article>
+    <p>
+      foo
+      <a href='http://disney.com'>foz</a>
+      <i>fez</i>
+      <b>fiz</b>
+      <a href='http://mic.com'><b><i>faz</i></b></a>      
+    </p>
+  </article>);
+
+  t.equal(actual, expected);
+  t.end();
+});
