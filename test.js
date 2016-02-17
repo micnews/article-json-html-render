@@ -1,11 +1,11 @@
 import test from 'tape';
-import setupRenderer from './lib';
+import setupArticle from './lib';
 import {element, string} from 'deku';
 
 test('embed', t => {
   t.plan(2);
 
-  const Renderer = setupRenderer({
+  const Article = setupArticle({
     embeds: {
       twitter: tweet => {
         t.equal(tweet.id, 'twitter-id');
@@ -13,13 +13,13 @@ test('embed', t => {
       }
     }
   });
-  const data = [{
+  const items = [{
     type: 'embed',
     embedType: 'twitter',
     id: 'twitter-id'
   }];
-  const expected = string.render(<article><span id='twitter-id'/></article>);
-  const actual = string.render(<Renderer data={data} />);
+  const expected = string.render(<article><figure><span id='twitter-id'/></figure></article>);
+  const actual = string.render(<Article items={items} />);
 
   t.equal(actual, expected);
 
@@ -29,14 +29,14 @@ test('embed', t => {
 test('unknown embed', t => {
   t.plan(1);
 
-  const Renderer = setupRenderer({});
+  const Article = setupArticle({ embeds: {} });
 
-  const data = [{
+  const items = [{
     type: 'embed',
     embedType: 'unknown-embed'
   }];
   const expected = string.render(<article></article>);
-  const actual = string.render(<Renderer data={data} />);
+  const actual = string.render(<Article items={items} />);
 
   t.equal(actual, expected);
   t.end();
