@@ -48,25 +48,25 @@ test('text elements', t => {
   const items = [
     {
       type: 'paragraph',
-      children: [{content: 'foo bar'}]
+      children: [{content: 'foo bar', type: 'text'}]
     }, {
       type: `header1`,
-      children: [{content: 'beep boop1'}]
+      children: [{content: 'beep boop1', type: 'text'}]
     }, {
       type: `header2`,
-      children: [{content: 'beep boop2'}]
+      children: [{content: 'beep boop2', type: 'text'}]
     }, {
       type: `header3`,
-      children: [{content: 'beep boop3'}]
+      children: [{content: 'beep boop3', type: 'text'}]
     }, {
       type: `header4`,
-      children: [{content: 'beep boop4'}]
+      children: [{content: 'beep boop4', type: 'text'}]
     }, {
       type: `header5`,
-      children: [{content: 'beep boop5'}]
+      children: [{content: 'beep boop5', type: 'text'}]
     }, {
       type: `header6`,
-      children: [{content: 'beep boop6'}]
+      children: [{content: 'beep boop6', type: 'text'}]
     }
   ];
 
@@ -81,5 +81,6 @@ test('text elements', t => {
     <h6>beep boop6</h6>
   </article>)
 
+  t.equal(actual, expected);
   t.end();
 });
