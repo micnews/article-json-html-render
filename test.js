@@ -42,43 +42,37 @@ test('unknown embed', t => {
   t.end();
 });
 
-test('headers', t => {
+test('text elements', t => {
   const Article = setupArticle({ embeds: {} });
 
-  const items = [{
-    type: `header1`,
-    children: [{
-      content: 'beep boop1'
-    }]
-  }, {
-    type: `header2`,
-    children: [{
-      content: 'beep boop2'
-    }]
-  }, {
-    type: `header3`,
-    children: [{
-      content: 'beep boop3'
-    }]
-  }, {
-    type: `header4`,
-    children: [{
-      content: 'beep boop4'
-    }]
-  }, {
-    type: `header5`,
-    children: [{
-      content: 'beep boop5'
-    }]
-  }, {
-    type: `header6`,
-    children: [{
-      content: 'beep boop6'
-    }]
-  }];
+  const items = [
+    {
+      type: 'paragraph',
+      children: [{content: 'foo bar'}]
+    }, {
+      type: `header1`,
+      children: [{content: 'beep boop1'}]
+    }, {
+      type: `header2`,
+      children: [{content: 'beep boop2'}]
+    }, {
+      type: `header3`,
+      children: [{content: 'beep boop3'}]
+    }, {
+      type: `header4`,
+      children: [{content: 'beep boop4'}]
+    }, {
+      type: `header5`,
+      children: [{content: 'beep boop5'}]
+    }, {
+      type: `header6`,
+      children: [{content: 'beep boop6'}]
+    }
+  ];
 
   const actual = string.render(<Article items={items} />);
   const expected = string.render(<article>
+    <p>foo bar</p>
     <h1>beep boop1</h1>
     <h2>beep boop2</h2>
     <h3>beep boop3</h3>
