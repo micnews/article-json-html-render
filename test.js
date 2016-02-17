@@ -41,3 +41,51 @@ test('unknown embed', t => {
   t.equal(actual, expected);
   t.end();
 });
+
+test('headers', t => {
+  const Article = setupArticle({ embeds: {} });
+
+  const items = [{
+    type: `header1`,
+    children: [{
+      content: 'beep boop1'
+    }]
+  }, {
+    type: `header2`,
+    children: [{
+      content: 'beep boop2'
+    }]
+  }, {
+    type: `header3`,
+    children: [{
+      content: 'beep boop3'
+    }]
+  }, {
+    type: `header4`,
+    children: [{
+      content: 'beep boop4'
+    }]
+  }, {
+    type: `header5`,
+    children: [{
+      content: 'beep boop5'
+    }]
+  }, {
+    type: `header6`,
+    children: [{
+      content: 'beep boop6'
+    }]
+  }];
+
+  const actual = string.render(<Article items={items} />);
+  const expected = string.render(<article>
+    <h1>beep boop1</h1>
+    <h2>beep boop2</h2>
+    <h3>beep boop3</h3>
+    <h4>beep boop4</h4>
+    <h5>beep boop5</h5>
+    <h6>beep boop6</h6>
+  </article>)
+
+  t.end();
+});
