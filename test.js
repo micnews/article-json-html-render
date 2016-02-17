@@ -2,7 +2,7 @@ import test from 'tape';
 import setupRenderer from './lib';
 import {element, string} from 'deku';
 
-test('twitter', t => {
+test('embed', t => {
   t.plan(2);
 
   const Renderer = setupRenderer({
@@ -26,24 +26,16 @@ test('twitter', t => {
   t.end();
 });
 
-test('youtube', t => {
-  t.plan(2);
+test('unknown embed', t => {
+  t.plan(1);
 
-  const Renderer = setupRenderer({
-    embeds: {
-      youtube: embed => {
-        t.equal(embed.id, 'youtube-id');
-        return <span id={embed.id} />;
-      }
-    }
-  });
+  const Renderer = setupRenderer({});
 
   const data = [{
     type: 'embed',
-    embedType: 'youtube',
-    id: 'youtube-id'
+    embedType: 'unknown-embed'
   }];
-  const expected = string.render(<article><span id='youtube-id'/></article>);
+  const expected = string.render(<article></article>);
   const actual = string.render(<Renderer data={data} />);
 
   t.equal(actual, expected);
