@@ -198,3 +198,43 @@ test('text node with linebreak & unkown type', t => {
   t.equal(actual, expected);
   t.end();
 });
+
+test('embed with caption', t => {
+  const Article = setupArticle({
+    embeds: {
+      image: ({src}) => <img src={src} />
+    }
+  });
+
+  const items = [{
+    type: 'embed',
+    embedType: 'image',
+    src: 'http://example.com/image.jpg',
+    width: 600,
+    height: 200,
+    caption: [{
+      type: 'text',
+      content: 'Source: ',
+      href: null,
+      italic: false,
+      bold: false
+    }, {
+      type: 'text',
+      content: 'Author',
+      href: 'http://example.com/author',
+      italic: false,
+      bold: false
+    }]
+  }];
+
+  const actual = string.render(<Article items={items} />);
+  const expected = string.render(<article>
+    <figure>
+      <img src='http://example.com/image.jpg'></img>
+      <figcaption>Source: <a href='http://example.com/author'>Author</a></figcaption>
+    </figure>
+  </article>);
+
+  t.equal(actual, expected);
+  t.end();
+});
