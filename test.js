@@ -128,3 +128,36 @@ test('text with no content', t => {
   t.equal(actual, expected);
   t.end();
 });
+
+test('blockquote', t => {
+  const Article = setupArticle({embeds: {}});
+  const items = [{
+    type: 'blockquote',
+    children: [{
+      type: 'paragraph',
+      children: [{
+        type: 'text',
+        content: 'abc'
+      }]
+    }, {
+      type: 'paragraph',
+      children: [{
+        type: 'text',
+        content: 'def',
+        bold: true
+      }]
+    }]
+  }];
+  const actual = string.render(<Article items={items} />);
+  const expected = string.render(
+    <article>
+      <blockquote>
+        <p>abc</p>
+        <p><b>def</b></p>
+      </blockquote>
+    </article>
+  );
+
+  t.equal(actual, expected);
+  t.end();
+});
