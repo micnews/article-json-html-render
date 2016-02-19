@@ -113,3 +113,18 @@ test('text', t => {
   t.equal(actual, expected);
   t.end();
 });
+
+test('text with no content', t => {
+  const Article = setupArticle({embeds: {}});
+  const items = [
+    'paragraph', 'header1', 'header2', 'header3', 'header4', 'header5', 'header6'
+  ].map(type => ({
+    type, children: []
+  }));
+
+  const actual = string.render(<Article items={items} />);
+  const expected = string.render(<article></article>);
+
+  t.equal(actual, expected);
+  t.end();
+});

@@ -29,6 +29,7 @@
     "tape": "^4.4.0"
   },
   "dependencies": {
-    "deku": "^2.0.0-rc16"
+    "deku": "^2.0.0-rc16",
+    "lodash.startswith": "^4.0.0"
   }
 }
