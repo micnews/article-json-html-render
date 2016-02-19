@@ -175,7 +175,7 @@ test('unkown type', t => {
   t.end();
 });
 
-test('text node with linebreak & unkown type', t => {
+test('text node with linebreak, mark & unkown type', t => {
   const Article = setupArticle({ embeds: {} });
 
   const items = [
@@ -185,14 +185,21 @@ test('text node with linebreak & unkown type', t => {
         {type: 'text', content: 'foo'},
         {type: 'linebreak'},
         {type: 'unknown'},
-        {type: 'text', content: 'foo'}
+        {type: 'text', content: 'foo'},
+        {type: 'text', content: 'foz', mark: true},
+        {type: 'text', content: 'fiz', mark: true, markClass: 'mark-class'},
       ]
     }
   ];
 
   const actual = string.render(<Article items={items} />);
   const expected = string.render(<article>
-    <p>foo<br/>foo</p>
+    <p>
+      foo<br/>
+      foo
+      <mark>foz</mark>
+      <mark class="mark-class">fiz</mark>
+    </p>
   </article>);
 
   t.equal(actual, expected);

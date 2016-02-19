@@ -5,6 +5,8 @@
   "main": "dist/index.js",
   "scripts": {
     "test": "semistandard | snazzy && babel-tape-runner test.js | faucet",
+    "coverage:check": "nyc babel-tape-runner test.js",
+    "coverage:open": "npm run coverage:check && nyc report --reporter=lcov && open coverage/lcov-report/index.html",
     "prepublish": "mkdir -p dist && babel lib --out-dir dist"
   },
   "repository": {
