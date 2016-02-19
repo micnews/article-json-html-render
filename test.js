@@ -198,7 +198,7 @@ test('text node with linebreak, mark & unkown type', t => {
       foo<br/>
       foo
       <mark>foz</mark>
-      <mark class="mark-class">fiz</mark>
+      <mark class='mark-class'>fiz</mark>
     </p>
   </article>);
 
