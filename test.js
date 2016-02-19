@@ -174,3 +174,27 @@ test('unkown type', t => {
   t.equal(actual, expected);
   t.end();
 });
+
+test('text node with linebreak & unkown type', t => {
+  const Article = setupArticle({ embeds: {} });
+
+  const items = [
+    {
+      type: 'paragraph',
+      children: [
+        {type: 'text', content: 'foo'},
+        {type: 'linebreak'},
+        {type: 'unknown'},
+        {type: 'text', content: 'foo'}
+      ]
+    }
+  ];
+
+  const actual = string.render(<Article items={items} />);
+  const expected = string.render(<article>
+    <p>foo<br/>foo</p>
+  </article>);
+
+  t.equal(actual, expected);
+  t.end();
+});
