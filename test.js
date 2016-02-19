@@ -188,6 +188,7 @@ test('text node with linebreak, mark & unkown type', t => {
         {type: 'text', content: 'foo'},
         {type: 'text', content: 'foz', mark: true},
         {type: 'text', content: 'fiz', mark: true, markClass: 'mark-class'},
+        {type: 'text', mark: true}
       ]
     }
   ];
@@ -199,6 +200,7 @@ test('text node with linebreak, mark & unkown type', t => {
       foo
       <mark>foz</mark>
       <mark class='mark-class'>fiz</mark>
+      <mark></mark>
     </p>
   </article>);
 
