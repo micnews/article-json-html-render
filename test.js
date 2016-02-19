@@ -79,7 +79,7 @@ test('text elements', t => {
     <h4>beep boop4</h4>
     <h5>beep boop5</h5>
     <h6>beep boop6</h6>
-  </article>)
+  </article>);
 
   t.equal(actual, expected);
   t.end();
@@ -106,7 +106,7 @@ test('text', t => {
       <a href='http://disney.com'>foz</a>
       <i>fez</i>
       <b>fiz</b>
-      <a href='http://mic.com'><b><i>faz</i></b></a>      
+      <a href='http://mic.com'><b><i>faz</i></b></a>
     </p>
   </article>);
 
