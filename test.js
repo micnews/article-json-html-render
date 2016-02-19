@@ -161,3 +161,16 @@ test('blockquote', t => {
   t.equal(actual, expected);
   t.end();
 });
+
+test('unkown type', t => {
+  const Article = setupArticle({embeds: {}});
+  const items = [{
+    type: 'whatever'
+  }];
+
+  const actual = string.render(<Article items={items} />);
+  const expected = string.render(<article></article>);
+
+  t.equal(actual, expected);
+  t.end();
+});
