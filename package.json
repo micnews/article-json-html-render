@@ -26,7 +26,7 @@
     "babel-preset-es2015": "^6.5.0",
     "babel-tape-runner": "^2.0.0",
     "faucet": "0.0.1",
-    "semistandard-deku": "github:micnews/semistandard#deku",
+    "semistandard-deku": "micnews/semistandard#deku",
     "snazzy": "^3.0.0",
     "tape": "^4.4.0"
   },
