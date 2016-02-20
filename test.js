@@ -18,7 +18,8 @@ test('embed', t => {
     embedType: 'twitter',
     id: 'twitter-id'
   }];
-  const expected = string.render(<article><figure><span id='twitter-id'/></figure></article>);
+  const expected = string.render(
+    <article><figure><span id='twitter-id'/></figure></article>);
   const actual = string.render(<Article items={items} />);
 
   t.equal(actual, expected);
@@ -95,7 +96,8 @@ test('text', t => {
         {type: 'text', content: 'foz', href: 'http://disney.com'},
         {type: 'text', content: 'fez', italic: true},
         {type: 'text', content: 'fiz', bold: true},
-        {type: 'text', content: 'faz', italic: true, bold: true, href: 'http://mic.com'}
+        {type: 'text', content: 'faz', italic: true, bold: true,
+          href: 'http://mic.com'}
       ]
     }
   ];
@@ -117,7 +119,8 @@ test('text', t => {
 test('text with no content', t => {
   const Article = setupArticle({embeds: {}});
   const items = [
-    'paragraph', 'header1', 'header2', 'header3', 'header4', 'header5', 'header6'
+    'paragraph',
+    'header1', 'header2', 'header3', 'header4', 'header5', 'header6'
   ].map(type => ({
     type, children: []
   }));
@@ -240,7 +243,9 @@ test('embed with caption', t => {
   const expected = string.render(<article>
     <figure>
       <img src='http://example.com/image.jpg'></img>
-      <figcaption>Source: <a href='http://example.com/author'>Author</a></figcaption>
+      <figcaption>
+        Source: <a href='http://example.com/author'>Author</a>
+      </figcaption>
     </figure>
   </article>);
 
