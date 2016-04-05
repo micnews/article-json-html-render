@@ -43,6 +43,37 @@ test('unknown embed', t => {
   t.end();
 });
 
+test('embed with custom figureProps', t => {
+  t.plan(2);
+
+  const Article = setupArticle({
+    embeds: {
+      twitter: tweet => {
+        t.equal(tweet.id, 'twitter-id');
+        return <span id={tweet.id} />;
+      }
+    }
+  });
+  const items = [{
+    type: 'embed',
+    embedType: 'twitter',
+    id: 'twitter-id',
+    figureProps: {
+      foo: 'bar',
+      hello: 'world'
+    }
+  }];
+  const expected = string.render(
+    <article>
+      <figure foo='bar' hello='world'><span id='twitter-id'/></figure>
+    </article>);
+  const actual = string.render(<Article items={items} />);
+
+  t.equal(actual, expected);
+
+  t.end();
+});
+
 test('text elements', t => {
   const Article = setupArticle({ embeds: {} });
 
