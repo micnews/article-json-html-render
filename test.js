@@ -283,3 +283,47 @@ test('embed with caption', t => {
   t.equal(actual, expected);
   t.end();
 });
+
+test('custom caption', t => {
+  const customCaption = data => <figcaption-foo>{data}</figcaption-foo>;
+  const Article = setupArticle({
+    embeds: {
+      image: ({src}) => <img src={src} />
+    },
+    customCaption
+  });
+
+  const items = [{
+    type: 'embed',
+    embedType: 'image',
+    src: 'http://example.com/image.jpg',
+    width: 600,
+    height: 200,
+    caption: [{
+      type: 'text',
+      content: 'Source: ',
+      href: null,
+      italic: false,
+      bold: false
+    }, {
+      type: 'text',
+      content: 'Author',
+      href: 'http://example.com/author',
+      italic: false,
+      bold: false
+    }]
+  }];
+
+  const actual = string.render(<Article items={items} />);
+  const expected = string.render(<article>
+    <figure>
+      <img src='http://example.com/image.jpg'></img>
+      <figcaption-foo>
+        Source: <a href='http://example.com/author'>Author</a>
+      </figcaption-foo>
+    </figure>
+  </article>);
+
+  t.equal(actual, expected);
+  t.end();
+});
