@@ -20,8 +20,9 @@ npm test
 
 ## Dependencies
 
-- [deku](https://github.com/dekujs/deku): Render interfaces using pure functions and virtual DOM
+- [deku](https://github.com/dekujs/deku): Create view components using a virtual DOM
 - [lodash.startswith](https://github.com/lodash/lodash): The lodash method `_.startsWith` exported as a module.
+- [magic-virtual-element](https://github.com/dekujs/magic-virtual-element): Build virtual tree elements with magic attributes
 
 ## Dev Dependencies
 

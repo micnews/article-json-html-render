@@ -1,6 +1,7 @@
 import test from 'tape';
 import setupArticle from './lib';
-import {element, string} from 'deku';
+import {renderString, tree} from 'deku';
+import element from 'magic-virtual-element';
 
 test('embed', t => {
   t.plan(2);
@@ -18,9 +19,9 @@ test('embed', t => {
     embedType: 'twitter',
     id: 'twitter-id'
   }];
-  const expected = string.render(
-    <article><figure><span id='twitter-id'/></figure></article>);
-  const actual = string.render(<Article items={items} />);
+  const expected = renderString(tree(
+    <article><figure><span id='twitter-id'/></figure></article>));
+  const actual = renderString(tree(<Article items={items} />));
 
   t.equal(actual, expected);
 
@@ -36,8 +37,8 @@ test('unknown embed', t => {
     type: 'embed',
     embedType: 'unknown-embed'
   }];
-  const expected = string.render(<article></article>);
-  const actual = string.render(<Article items={items} />);
+  const expected = renderString(tree(<article></article>));
+  const actual = renderString(tree(<Article items={items} />));
 
   t.equal(actual, expected);
   t.end();
@@ -63,11 +64,11 @@ test('embed with custom figureProps', t => {
       hello: 'world'
     }
   }];
-  const expected = string.render(
+  const expected = renderString(tree(
     <article>
       <figure foo='bar' hello='world'><span id='twitter-id'/></figure>
-    </article>);
-  const actual = string.render(<Article items={items} />);
+    </article>));
+  const actual = renderString(tree(<Article items={items} />));
 
   t.equal(actual, expected);
 
@@ -102,8 +103,8 @@ test('text elements', t => {
     }
   ];
 
-  const actual = string.render(<Article items={items} />);
-  const expected = string.render(<article>
+  const actual = renderString(tree(<Article items={items} />));
+  const expected = renderString(tree(<article>
     <p>foo bar</p>
     <h1>beep boop1</h1>
     <h2>beep boop2</h2>
@@ -111,7 +112,7 @@ test('text elements', t => {
     <h4>beep boop4</h4>
     <h5>beep boop5</h5>
     <h6>beep boop6</h6>
-  </article>);
+  </article>));
 
   t.equal(actual, expected);
   t.end();
@@ -132,8 +133,8 @@ test('text', t => {
       ]
     }
   ];
-  const actual = string.render(<Article items={items} />);
-  const expected = string.render(<article>
+  const actual = renderString(tree(<Article items={items} />));
+  const expected = renderString(tree(<article>
     <p>
       foo
       <a href='http://disney.com'>foz</a>
@@ -141,7 +142,7 @@ test('text', t => {
       <b>fiz</b>
       <a href='http://mic.com'><b><i>faz</i></b></a>
     </p>
-  </article>);
+  </article>));
 
   t.equal(actual, expected);
   t.end();
@@ -156,8 +157,8 @@ test('text with no content', t => {
     type, children: []
   }));
 
-  const actual = string.render(<Article items={items} />);
-  const expected = string.render(<article></article>);
+  const actual = renderString(tree(<Article items={items} />));
+  const expected = renderString(tree(<article></article>));
 
   t.equal(actual, expected);
   t.end();
@@ -182,15 +183,15 @@ test('blockquote', t => {
       }]
     }]
   }];
-  const actual = string.render(<Article items={items} />);
-  const expected = string.render(
+  const actual = renderString(tree(<Article items={items} />));
+  const expected = renderString(tree(
     <article>
       <blockquote>
         <p>abc</p>
         <p><b>def</b></p>
       </blockquote>
     </article>
-  );
+  ));
 
   t.equal(actual, expected);
   t.end();
@@ -202,8 +203,8 @@ test('unkown type', t => {
     type: 'whatever'
   }];
 
-  const actual = string.render(<Article items={items} />);
-  const expected = string.render(<article></article>);
+  const actual = renderString(tree(<Article items={items} />));
+  const expected = renderString(tree(<article></article>));
 
   t.equal(actual, expected);
   t.end();
@@ -227,8 +228,8 @@ test('text node with linebreak, mark & unkown type', t => {
     }
   ];
 
-  const actual = string.render(<Article items={items} />);
-  const expected = string.render(<article>
+  const actual = renderString(tree(<Article items={items} />));
+  const expected = renderString(tree(<article>
     <p>
       foo<br/>
       foo
@@ -236,7 +237,7 @@ test('text node with linebreak, mark & unkown type', t => {
       <mark class='mark-class'>fiz</mark>
       <mark></mark>
     </p>
-  </article>);
+  </article>));
 
   t.equal(actual, expected);
   t.end();
@@ -270,15 +271,15 @@ test('embed with caption', t => {
     }]
   }];
 
-  const actual = string.render(<Article items={items} />);
-  const expected = string.render(<article>
+  const actual = renderString(tree(<Article items={items} />));
+  const expected = renderString(tree(<article>
     <figure>
       <img src='http://example.com/image.jpg'></img>
       <figcaption>
         Source: <a href='http://example.com/author'>Author</a>
       </figcaption>
     </figure>
-  </article>);
+  </article>));
 
   t.equal(actual, expected);
   t.end();
@@ -314,15 +315,15 @@ test('custom caption', t => {
     }]
   }];
 
-  const actual = string.render(<Article items={items} />);
-  const expected = string.render(<article>
+  const actual = renderString(tree(<Article items={items} />));
+  const expected = renderString(tree(<article>
     <figure>
       <img src='http://example.com/image.jpg'></img>
       <figcaption-foo>
         Source: <a href='http://example.com/author'>Author</a>
       </figcaption-foo>
     </figure>
-  </article>);
+  </article>));
 
   t.equal(actual, expected);
   t.end();
