@@ -164,6 +164,30 @@ test('text with no content', t => {
   t.end();
 });
 
+test('text with no content, opts.renderEmptyTextNodes = true', t => {
+  const Article = setupArticle({embeds: {}, renderEmptyTextNodes: true});
+  const items = [
+    'paragraph',
+    'header1', 'header2', 'header3', 'header4', 'header5', 'header6'
+  ].map(type => ({
+    type, children: []
+  }));
+
+  const actual = renderString(tree(<Article items={items} />));
+  const expected = renderString(tree(<article>
+    <p></p>
+    <h1></h1>
+    <h2></h2>
+    <h3></h3>
+    <h4></h4>
+    <h5></h5>
+    <h6></h6>
+  </article>));
+
+  t.equal(actual, expected);
+  t.end();
+});
+
 test('blockquote', t => {
   const Article = setupArticle({embeds: {}});
   const items = [{
