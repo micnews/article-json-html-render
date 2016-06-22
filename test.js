@@ -352,3 +352,53 @@ test('custom caption', t => {
   t.equal(actual, expected);
   t.end();
 });
+
+test('custom figure', t => {
+  const customFigure = ({props, children}) => {
+    return (<figure {...props.figureProps}>
+      <h2>Custom figure header</h2>
+      {children}
+    </figure>);
+  };
+  const Article = setupArticle({
+    embeds: {
+      image: ({src}) => <img src={src} />
+    },
+    customFigure
+  });
+
+  const items = [{
+    type: 'embed',
+    embedType: 'image',
+    src: 'http://example.com/image.jpg',
+    width: 600,
+    height: 200,
+    caption: [{
+      type: 'text',
+      content: 'Source: ',
+      href: null,
+      italic: false,
+      bold: false
+    }, {
+      type: 'text',
+      content: 'Author',
+      href: 'http://example.com/author',
+      italic: false,
+      bold: false
+    }]
+  }];
+
+  const actual = renderString(tree(<Article items={items} />));
+  const expected = renderString(tree(<article>
+    <figure>
+      <h2>Custom figure header</h2>
+      <img src='http://example.com/image.jpg'></img>
+      <figcaption>
+        Source: <a href='http://example.com/author'>Author</a>
+      </figcaption>
+    </figure>
+  </article>));
+
+  t.equal(actual, expected);
+  t.end();
+});
