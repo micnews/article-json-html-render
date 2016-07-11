@@ -352,3 +352,90 @@ test('custom caption', t => {
   t.equal(actual, expected);
   t.end();
 });
+
+test('embed with caption and attribution', t => {
+  const Article = setupArticle({
+    embeds: {
+      image: ({src}) => <img src={src} />
+    }
+  });
+
+  const items = [{
+    type: 'embed',
+    embedType: 'image',
+    src: 'http://example.com/image.jpg',
+    width: 600,
+    height: 200,
+    caption: [{
+      type: 'text',
+      content: 'Image description',
+      href: null,
+      italic: false,
+      bold: false
+    }],
+    attribution: [{
+      type: 'text',
+      content: 'Source: ',
+      href: null,
+      italic: false,
+      bold: false
+    }, {
+      type: 'text',
+      content: 'author',
+      href: 'http://example.com',
+      italic: false,
+      bold: false
+    }]
+  }];
+
+  const actual = renderString(tree(<Article items={items} />));
+  const expected = renderString(tree(<article>
+    <figure>
+      <img src='http://example.com/image.jpg'></img>
+      <figcaption>
+        Image description
+        <cite>Source: <a href='http://example.com'>author</a></cite>
+      </figcaption>
+    </figure>
+  </article>));
+
+  t.equal(actual, expected);
+  t.end();
+});
+
+test('embed with attribution without link', t => {
+  const Article = setupArticle({
+    embeds: {
+      image: ({src}) => <img src={src} />
+    }
+  });
+
+  const items = [{
+    type: 'embed',
+    embedType: 'image',
+    src: 'http://example.com/image.jpg',
+    width: 600,
+    height: 200,
+    caption: [],
+    attribution: [{
+      type: 'text',
+      content: 'Source',
+      href: null,
+      italic: false,
+      bold: false
+    }]
+  }];
+
+  const actual = renderString(tree(<Article items={items} />));
+  const expected = renderString(tree(<article>
+    <figure>
+      <img src='http://example.com/image.jpg'></img>
+      <figcaption>
+        <cite>Source</cite>
+      </figcaption>
+    </figure>
+  </article>));
+
+  t.equal(actual, expected);
+  t.end();
+});
