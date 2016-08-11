@@ -1,6 +1,6 @@
 {
   "name": "article-json-html-render",
-  "version": "2.2.0",
+  "version": "3.0.0",
   "description": "Base for html-based article-json renderer, such as [article-json-to-amp](https://www.npmjs.com/package/article-json-to-amp)",
   "main": "dist/index.js",
   "scripts": {
