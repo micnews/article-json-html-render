@@ -4,8 +4,7 @@
   "description": "Base for html-based article-json renderer, such as [article-json-to-amp](https://www.npmjs.com/package/article-json-to-amp)",
   "main": "dist/index.js",
   "scripts": {
-    "lint": "miclint | snazzy",
-    "test": "npm run lint && babel-tape-runner test/test.js",
+    "test": "semistandard | snazzy && babel-tape-runner test.js | faucet",
     "coverage:check": "nyc babel-tape-runner test.js",
     "coverage:open": "npm run coverage:check && nyc report --reporter=lcov && open coverage/lcov-report/index.html",
     "prepublish": "mkdir -p dist && babel lib --out-dir dist",
@@ -26,16 +25,16 @@
     "babel-core": "^6.5.2",
     "babel-plugin-transform-react-jsx": "^6.5.2",
     "babel-preset-es2015": "^6.5.0",
-    "babel-preset-react": "^6.11.1",
     "babel-tape-runner": "^2.0.0",
-    "miclint": "^1.0.0",
+    "deku": "^1.0.0",
+    "faucet": "0.0.1",
     "package-json-to-readme": "^1.5.0",
-    "react-dom": "^15.3.0",
+    "semistandard-deku": "micnews/semistandard#deku",
     "snazzy": "^4.0.0",
     "tape": "^4.4.0"
   },
   "dependencies": {
     "lodash.startswith": "^4.0.0",
-    "react": "^15.3.0"
+    "magic-virtual-element": "^1.0.6"
   }
 }
