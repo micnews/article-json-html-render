@@ -1,24 +1,15 @@
-/* eslint-disable  */
-
-import React from 'react';
-import { renderToStaticMarkup } from 'react-dom/server';
 import setupArticle from 'article-json-html-render';
-
-const makeImage = embed => <img src={embed.src} />;
-
-makeImage.propTypes = {
-  src: React.PropTypes.string.isRequired
-};
+import {element, string} from 'deku';
 
 const Article = setupArticle({
   embeds: {
-    image: makeImage
+    image: embed => <img src={embed.src} />
   }
 });
 
 const items = [
-  { type: 'paragraph', children: [{content: 'foo'}] },
-  { type: 'embed', embedType: 'image', src: 'http://example.com/image.jpg' }
+  {type: 'paragraph', children: [{content: 'foo'}]},
+  {type: 'embed', embedType: 'image', src: 'http://example.com/image.jpg'}
 ];
 
-console.log(renderToStaticMarkup(<Article items={items} />));
+console.log(string.render(<Article items={items} />));
