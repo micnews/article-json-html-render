@@ -1,7 +1,10 @@
+/* eslint-disable import/no-extraneous-dependencies */
+/* eslint-disable jsx-a11y/heading-has-content */
+/* eslint-disable jsx-a11y/img-has-alt */
 import test from 'tape';
-import setupArticle from './lib';
-import {renderString, tree} from 'deku';
-import element from 'magic-virtual-element';
+import React from 'react';
+import { renderToStaticMarkup } from 'react-dom/server';
+import setupArticle from '../lib';
 
 test('embed', t => {
   t.plan(2);
@@ -19,12 +22,12 @@ test('embed', t => {
     embedType: 'twitter',
     id: 'twitter-id'
   }];
-  const expected = renderString(tree(
-    <article><figure><span id='twitter-id'/></figure></article>));
-  const actual = renderString(tree(<Article items={items} />));
+
+  const expected = renderToStaticMarkup(
+    <article><figure><span id='twitter-id' /></figure></article>);
+  const actual = renderToStaticMarkup(<Article items={items} />);
 
   t.equal(actual, expected);
-
   t.end();
 });
 
@@ -37,8 +40,8 @@ test('unknown embed', t => {
     type: 'embed',
     embedType: 'unknown-embed'
   }];
-  const expected = renderString(tree(<article></article>));
-  const actual = renderString(tree(<Article items={items} />));
+  const expected = renderToStaticMarkup(<article />);
+  const actual = renderToStaticMarkup(<Article items={items} />);
 
   t.equal(actual, expected);
   t.end();
@@ -60,15 +63,20 @@ test('embed with custom figureProps', t => {
     embedType: 'twitter',
     id: 'twitter-id',
     figureProps: {
-      foo: 'bar',
-      hello: 'world'
+      'data-foo': 'bar',
+      'data-hello': 'world',
+      className: 'foo-bar-world'
     }
   }];
-  const expected = renderString(tree(
+  const expected = renderToStaticMarkup(
     <article>
-      <figure foo='bar' hello='world'><span id='twitter-id'/></figure>
-    </article>));
-  const actual = renderString(tree(<Article items={items} />));
+      <figure
+        data-foo='bar'
+        data-hello='world'
+        className='foo-bar-world'
+      ><span id='twitter-id' /></figure>
+    </article>);
+  const actual = renderToStaticMarkup(<Article items={items} />);
 
   t.equal(actual, expected);
 
@@ -81,30 +89,30 @@ test('text elements', t => {
   const items = [
     {
       type: 'paragraph',
-      children: [{content: 'foo bar', type: 'text'}]
+      children: [{ content: 'foo bar', type: 'text' }]
     }, {
-      type: `header1`,
-      children: [{content: 'beep boop1', type: 'text'}]
+      type: 'header1',
+      children: [{ content: 'beep boop1', type: 'text' }]
     }, {
-      type: `header2`,
-      children: [{content: 'beep boop2', type: 'text'}]
+      type: 'header2',
+      children: [{ content: 'beep boop2', type: 'text' }]
     }, {
-      type: `header3`,
-      children: [{content: 'beep boop3', type: 'text'}]
+      type: 'header3',
+      children: [{ content: 'beep boop3', type: 'text' }]
     }, {
-      type: `header4`,
-      children: [{content: 'beep boop4', type: 'text'}]
+      type: 'header4',
+      children: [{ content: 'beep boop4', type: 'text' }]
     }, {
-      type: `header5`,
-      children: [{content: 'beep boop5', type: 'text'}]
+      type: 'header5',
+      children: [{ content: 'beep boop5', type: 'text' }]
     }, {
-      type: `header6`,
-      children: [{content: 'beep boop6', type: 'text'}]
+      type: 'header6',
+      children: [{ content: 'beep boop6', type: 'text' }]
     }
   ];
 
-  const actual = renderString(tree(<Article items={items} />));
-  const expected = renderString(tree(<article>
+  const actual = renderToStaticMarkup(<Article items={items} />);
+  const expected = renderToStaticMarkup(<article>
     <p>foo bar</p>
     <h1>beep boop1</h1>
     <h2>beep boop2</h2>
@@ -112,29 +120,28 @@ test('text elements', t => {
     <h4>beep boop4</h4>
     <h5>beep boop5</h5>
     <h6>beep boop6</h6>
-  </article>));
+  </article>);
 
   t.equal(actual, expected);
   t.end();
 });
 
 test('text', t => {
-  const Article = setupArticle({embeds: {}});
+  const Article = setupArticle({ embeds: {} });
   const items = [
     {
       type: 'paragraph',
       children: [
-        {type: 'text', content: 'foo'},
-        {type: 'text', content: 'foz', href: 'http://disney.com'},
-        {type: 'text', content: 'fez', italic: true},
-        {type: 'text', content: 'fiz', bold: true},
-        {type: 'text', content: 'faz', italic: true, bold: true,
-          href: 'http://mic.com'}
+        { type: 'text', content: 'foo' },
+        { type: 'text', content: 'foz', href: 'http://disney.com' },
+        { type: 'text', content: 'fez', italic: true },
+        { type: 'text', content: 'fiz', bold: true },
+        { type: 'text', content: 'faz', italic: true, bold: true, href: 'http://mic.com' }
       ]
     }
   ];
-  const actual = renderString(tree(<Article items={items} />));
-  const expected = renderString(tree(<article>
+  const actual = renderToStaticMarkup(<Article items={items} />);
+  const expected = renderToStaticMarkup(<article>
     <p>
       foo
       <a href='http://disney.com'>foz</a>
@@ -142,30 +149,31 @@ test('text', t => {
       <b>fiz</b>
       <a href='http://mic.com'><b><i>faz</i></b></a>
     </p>
-  </article>));
+  </article>);
 
   t.equal(actual, expected);
   t.end();
 });
 
 test('text with no content', t => {
-  const Article = setupArticle({embeds: {}});
+  const Article = setupArticle({ embeds: {} });
   const items = [
     'paragraph',
     'header1', 'header2', 'header3', 'header4', 'header5', 'header6'
   ].map(type => ({
-    type, children: []
+    type,
+    children: []
   }));
 
-  const actual = renderString(tree(<Article items={items} />));
-  const expected = renderString(tree(<article></article>));
+  const actual = renderToStaticMarkup(<Article items={items} />);
+  const expected = renderToStaticMarkup(<article />);
 
   t.equal(actual, expected);
   t.end();
 });
 
 test('text with no content, opts.renderEmptyTextNodes = true', t => {
-  const Article = setupArticle({embeds: {}, renderEmptyTextNodes: true});
+  const Article = setupArticle({ embeds: {}, renderEmptyTextNodes: true });
   const items = [
     'paragraph',
     'header1', 'header2', 'header3', 'header4', 'header5', 'header6'
@@ -173,23 +181,23 @@ test('text with no content, opts.renderEmptyTextNodes = true', t => {
     type, children: []
   }));
 
-  const actual = renderString(tree(<Article items={items} />));
-  const expected = renderString(tree(<article>
-    <p></p>
-    <h1></h1>
-    <h2></h2>
-    <h3></h3>
-    <h4></h4>
-    <h5></h5>
-    <h6></h6>
-  </article>));
+  const actual = renderToStaticMarkup(<Article items={items} />);
+  const expected = renderToStaticMarkup(<article>
+    <p />
+    <h1 />
+    <h2 />
+    <h3 />
+    <h4 />
+    <h5 />
+    <h6 />
+  </article>);
 
   t.equal(actual, expected);
   t.end();
 });
 
 test('blockquote', t => {
-  const Article = setupArticle({embeds: {}});
+  const Article = setupArticle({ embeds: {} });
   const items = [{
     type: 'blockquote',
     children: [{
@@ -207,28 +215,28 @@ test('blockquote', t => {
       }]
     }]
   }];
-  const actual = renderString(tree(<Article items={items} />));
-  const expected = renderString(tree(
+  const actual = renderToStaticMarkup(<Article items={items} />);
+  const expected = renderToStaticMarkup(
     <article>
       <blockquote>
         <p>abc</p>
         <p><b>def</b></p>
       </blockquote>
     </article>
-  ));
+  );
 
   t.equal(actual, expected);
   t.end();
 });
 
 test('unkown type', t => {
-  const Article = setupArticle({embeds: {}});
+  const Article = setupArticle({ embeds: {} });
   const items = [{
     type: 'whatever'
   }];
 
-  const actual = renderString(tree(<Article items={items} />));
-  const expected = renderString(tree(<article></article>));
+  const actual = renderToStaticMarkup(<Article items={items} />);
+  const expected = renderToStaticMarkup(<article />);
 
   t.equal(actual, expected);
   t.end();
@@ -241,36 +249,42 @@ test('text node with linebreak, mark & unkown type', t => {
     {
       type: 'paragraph',
       children: [
-        {type: 'text', content: 'foo'},
-        {type: 'linebreak'},
-        {type: 'unknown'},
-        {type: 'text', content: 'foo'},
-        {type: 'text', content: 'foz', mark: true},
-        {type: 'text', content: 'fiz', mark: true, markClass: 'mark-class'},
-        {type: 'text', mark: true}
+        { type: 'text', content: 'foo' },
+        { type: 'linebreak' },
+        { type: 'unknown' },
+        { type: 'text', content: 'foo' },
+        { type: 'text', content: 'foz', mark: true },
+        { type: 'text', content: 'fiz', mark: true, markClass: 'mark-class' },
+        { type: 'text', mark: true }
       ]
     }
   ];
 
-  const actual = renderString(tree(<Article items={items} />));
-  const expected = renderString(tree(<article>
+  const actual = renderToStaticMarkup(<Article items={items} />);
+  const expected = renderToStaticMarkup(<article>
     <p>
-      foo<br/>
+      foo<br />
       foo
       <mark>foz</mark>
-      <mark class='mark-class'>fiz</mark>
-      <mark></mark>
+      <mark className='mark-class'>fiz</mark>
+      <mark />
     </p>
-  </article>));
+  </article>);
 
   t.equal(actual, expected);
   t.end();
 });
 
 test('embed with caption', t => {
+  const makeImage = ({ src }) => <img src={src} />;
+
+  makeImage.propTypes = {
+    src: React.PropTypes.string.isRequired
+  };
+
   const Article = setupArticle({
     embeds: {
-      image: ({src}) => <img src={src} />
+      image: makeImage
     }
   });
 
@@ -295,15 +309,15 @@ test('embed with caption', t => {
     }]
   }];
 
-  const actual = renderString(tree(<Article items={items} />));
-  const expected = renderString(tree(<article>
+  const actual = renderToStaticMarkup(<Article items={items} />);
+  const expected = renderToStaticMarkup(<article>
     <figure>
-      <img src='http://example.com/image.jpg'></img>
+      <img src='http://example.com/image.jpg' />
       <figcaption>
         Source: <a href='http://example.com/author'>Author</a>
       </figcaption>
     </figure>
-  </article>));
+  </article>);
 
   t.equal(actual, expected);
   t.end();
@@ -311,9 +325,15 @@ test('embed with caption', t => {
 
 test('custom caption', t => {
   const customCaption = data => <figcaption-foo>{data}</figcaption-foo>;
+  const makeImage = ({ src }) => <img src={src} />;
+
+  makeImage.propTypes = {
+    src: React.PropTypes.string.isRequired
+  };
+
   const Article = setupArticle({
     embeds: {
-      image: ({src}) => <img src={src} />
+      image: makeImage
     },
     customCaption
   });
@@ -339,24 +359,30 @@ test('custom caption', t => {
     }]
   }];
 
-  const actual = renderString(tree(<Article items={items} />));
-  const expected = renderString(tree(<article>
+  const actual = renderToStaticMarkup(<Article items={items} />);
+  const expected = renderToStaticMarkup(<article>
     <figure>
-      <img src='http://example.com/image.jpg'></img>
+      <img src='http://example.com/image.jpg' />
       <figcaption-foo>
         Source: <a href='http://example.com/author'>Author</a>
       </figcaption-foo>
     </figure>
-  </article>));
+  </article>);
 
   t.equal(actual, expected);
   t.end();
 });
 
 test('embed with caption and attribution', t => {
+  const makeImage = ({ src }) => <img src={src} />;
+
+  makeImage.propTypes = {
+    src: React.PropTypes.string.isRequired
+  };
+
   const Article = setupArticle({
     embeds: {
-      image: ({src}) => <img src={src} />
+      image: makeImage
     }
   });
 
@@ -388,25 +414,31 @@ test('embed with caption and attribution', t => {
     }]
   }];
 
-  const actual = renderString(tree(<Article items={items} />));
-  const expected = renderString(tree(<article>
+  const actual = renderToStaticMarkup(<Article items={items} />);
+  const expected = renderToStaticMarkup(<article>
     <figure>
-      <img src='http://example.com/image.jpg'></img>
+      <img src='http://example.com/image.jpg' />
       <figcaption>
         Image description
         <cite>Source: <a href='http://example.com'>author</a></cite>
       </figcaption>
     </figure>
-  </article>));
+  </article>);
 
   t.equal(actual, expected);
   t.end();
 });
 
 test('embed with attribution without link', t => {
+  const makeImage = ({ src }) => <img src={src} />;
+
+  makeImage.propTypes = {
+    src: React.PropTypes.string.isRequired
+  };
+
   const Article = setupArticle({
     embeds: {
-      image: ({src}) => <img src={src} />
+      image: makeImage
     }
   });
 
@@ -426,15 +458,15 @@ test('embed with attribution without link', t => {
     }]
   }];
 
-  const actual = renderString(tree(<Article items={items} />));
-  const expected = renderString(tree(<article>
+  const actual = renderToStaticMarkup(<Article items={items} />);
+  const expected = renderToStaticMarkup(<article>
     <figure>
-      <img src='http://example.com/image.jpg'></img>
+      <img src='http://example.com/image.jpg' />
       <figcaption>
         <cite>Source</cite>
       </figcaption>
     </figure>
-  </article>));
+  </article>);
 
   t.equal(actual, expected);
   t.end();
