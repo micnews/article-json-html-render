@@ -128,9 +128,10 @@ test('text', t => {
         {type: 'text', content: 'foz', href: 'http://disney.com'},
         {type: 'text', content: 'fez', italic: true},
         {type: 'text', content: 'fiz', bold: true},
+        {type: 'text', content: 'fuz', strikethrough: true},
+        {type: 'text', content: 'fyz', mark: true},
         {type: 'text', content: 'faz', italic: true, bold: true,
-          href: 'http://mic.com'},
-        {type: 'text', content: 'fuz', strikethrough: true}
+          mark: true, strikethrough: true, href: 'http://mic.com'}
       ]
     }
   ];
@@ -141,8 +142,9 @@ test('text', t => {
       <a href='http://disney.com'>foz</a>
       <i>fez</i>
       <b>fiz</b>
-      <a href='http://mic.com'><b><i>faz</i></b></a>
       <s>fuz</s>
+      <mark>fyz</mark>
+      <mark><a href='http://mic.com'><s><b><i>faz</i></b></s></a></mark>
     </p>
   </article>));
 
