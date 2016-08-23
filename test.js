@@ -514,3 +514,45 @@ test('customTextFormattings', t => {
   t.equal(actual, expected);
   t.end();
 });
+
+test('customTextFormattings wraps all other formattings', t => {
+  const Article = setupArticle({
+    customTextFormattings: [
+      {
+        property: 'underline',
+        render: (item, el) => {
+          return (<span style='text-decoration: underline;'>{el}</span>);
+        }
+      }
+    ]
+  });
+
+  const items = [{
+    type: 'paragraph',
+    children: [{
+      type: 'text',
+      content: 'content',
+      underline: true,
+      italic: true,
+      bold: true,
+      mark: true,
+      strikethrough: true,
+      href: 'http://mic.com'
+    }]
+  }];
+  const actual = renderString(tree(<Article items={items} />));
+  const expected = renderString(tree(<article>
+    <p>
+      <span style='text-decoration: underline;'>
+        <mark>
+          <a href='http://mic.com'>
+            <s><b><i>content</i></b></s>
+          </a>
+        </mark>
+      </span>
+    </p>
+  </article>));
+
+  t.equal(actual, expected);
+  t.end();
+});
