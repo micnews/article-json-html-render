@@ -443,3 +443,116 @@ test('embed with attribution without link', t => {
   t.equal(actual, expected);
   t.end();
 });
+
+test('customTextFormattings', t => {
+  const Article = setupArticle({
+    embeds: {
+      image: ({src}) => <img src={src} />
+    },
+    customTextFormattings: [
+      {
+        property: 'underline',
+        render: (item, el) => {
+          return (<span style='text-decoration: underline;'>{el}</span>);
+        }
+      }
+    ]
+  });
+
+  const items = [{
+    type: 'paragraph',
+    children: [{
+      type: 'text',
+      content: 'underlined text',
+      underline: true
+    }]
+  }, {
+    type: 'header1',
+    children: [{
+      type: 'text',
+      content: 'underlined text',
+      underline: true
+    }]
+  }, {
+    type: 'embed',
+    embedType: 'image',
+    src: 'http://example.com/image.jpg',
+    width: 600,
+    height: 200,
+    caption: [{
+      type: 'text',
+      content: 'Image description',
+      underline: true
+    }],
+    attribution: [{
+      type: 'text',
+      content: 'Source: ',
+      underline: true
+    }, {
+      type: 'text',
+      content: 'author',
+      href: 'http://example.com',
+      underline: true
+    }]
+  }];
+  const actual = renderString(tree(<Article items={items} />));
+  const expected = renderString(tree(<article>
+    <p><span style='text-decoration: underline;'>underlined text</span></p>
+    <h1><span style='text-decoration: underline;'>underlined text</span></h1>
+    <figure>
+      <img src='http://example.com/image.jpg'></img>
+      <figcaption>
+        <span style='text-decoration: underline;'>Image description</span>
+        <cite>
+          <span style='text-decoration: underline;'>Source: </span>
+          <span style='text-decoration: underline;'><a href='http://example.com'>author</a></span>
+        </cite>
+      </figcaption>
+    </figure>
+  </article>));
+
+  t.equal(actual, expected);
+  t.end();
+});
+
+test('customTextFormattings wraps all other formattings', t => {
+  const Article = setupArticle({
+    customTextFormattings: [
+      {
+        property: 'underline',
+        render: (item, el) => {
+          return (<span style='text-decoration: underline;'>{el}</span>);
+        }
+      }
+    ]
+  });
+
+  const items = [{
+    type: 'paragraph',
+    children: [{
+      type: 'text',
+      content: 'content',
+      underline: true,
+      italic: true,
+      bold: true,
+      mark: true,
+      strikethrough: true,
+      href: 'http://mic.com'
+    }]
+  }];
+  const actual = renderString(tree(<Article items={items} />));
+  const expected = renderString(tree(<article>
+    <p>
+      <span style='text-decoration: underline;'>
+        <mark>
+          <a href='http://mic.com'>
+            <s><b><i>content</i></b></s>
+          </a>
+        </mark>
+      </span>
+    </p>
+  </article>));
+
+  t.equal(actual, expected);
+  t.end();
+});
