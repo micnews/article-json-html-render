@@ -556,3 +556,17 @@ test('customTextFormattings wraps all other formattings', t => {
   t.equal(actual, expected);
   t.end();
 });
+
+test('articleProps', t => {
+  const Article = setupArticle({ embeds: {} });
+
+  const articleProps = {
+    contenteditable: true,
+    class: 'custom-article-class'
+  };
+  const expected = renderString(tree(<article {...articleProps}></article>));
+  const actual = renderString(tree(<Article articleProps={articleProps} items={[]} />));
+
+  t.equal(actual, expected);
+  t.end();
+});
