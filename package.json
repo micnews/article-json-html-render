@@ -30,7 +30,7 @@
     "faucet": "0.0.1",
     "package-json-to-readme": "^1.5.0",
     "semistandard-deku": "micnews/semistandard#deku",
-    "snazzy": "^4.0.0",
+    "snazzy": "^5.0.0",
     "tape": "^4.4.0"
   },
   "dependencies": {
