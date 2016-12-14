@@ -196,6 +196,7 @@ test('blockquote', t => {
   const Article = setupArticle({embeds: {}});
   const items = [{
     type: 'blockquote',
+    pullQuote: false,
     children: [{
       type: 'paragraph',
       children: [{
@@ -215,6 +216,40 @@ test('blockquote', t => {
   const expected = renderString(tree(
     <article>
       <blockquote>
+        <p>abc</p>
+        <p><b>def</b></p>
+      </blockquote>
+    </article>
+  ));
+
+  t.equal(actual, expected);
+  t.end();
+});
+
+test('blockquote pullQuote=true', t => {
+  const Article = setupArticle({embeds: {}});
+  const items = [{
+    type: 'blockquote',
+    pullQuote: true,
+    children: [{
+      type: 'paragraph',
+      children: [{
+        type: 'text',
+        content: 'abc'
+      }]
+    }, {
+      type: 'paragraph',
+      children: [{
+        type: 'text',
+        content: 'def',
+        bold: true
+      }]
+    }]
+  }];
+  const actual = renderString(tree(<Article items={items} />));
+  const expected = renderString(tree(
+    <article>
+      <blockquote class='q'>
         <p>abc</p>
         <p><b>def</b></p>
       </blockquote>
