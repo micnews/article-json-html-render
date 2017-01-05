@@ -118,7 +118,7 @@ test('text elements', t => {
   t.end();
 });
 
-test('text', t => {
+test('text and it\'s formattings', t => {
   const Article = setupArticle({embeds: {}});
   const items = [
     {
@@ -144,7 +144,7 @@ test('text', t => {
       <b>fiz</b>
       <s>fuz</s>
       <mark>fyz</mark>
-      <mark><a href='http://mic.com'><s><b><i>faz</i></b></s></a></mark>
+      <a href='http://mic.com'><s><b><i><mark>faz</mark></i></b></s></a>
     </p>
   </article>));
 
@@ -579,11 +579,9 @@ test('customTextFormattings wraps all other formattings', t => {
   const expected = renderString(tree(<article>
     <p>
       <span style='text-decoration: underline;'>
-        <mark>
-          <a href='http://mic.com'>
-            <s><b><i>content</i></b></s>
-          </a>
-        </mark>
+        <a href='http://mic.com'><s><b><i><mark>
+          content
+        </mark></i></b></s></a>
       </span>
     </p>
   </article>));
