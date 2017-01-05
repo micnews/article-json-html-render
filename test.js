@@ -152,6 +152,41 @@ test('text and it\'s formattings', t => {
   t.end();
 });
 
+test('text w links should use minimal amount of a-tags', t => {
+  const Article = setupArticle({embeds: {}});
+  const items = [
+    {
+      type: 'paragraph',
+      children: [
+        {type: 'text', content: 'faz', href: 'http://disney.com'},
+        {type: 'text', content: 'fez', mark: true, href: 'http://disney.com', markClass: 'hello'},
+        {type: 'text', content: 'fiz', href: 'http://disney.com'}
+      ]
+    }, {
+      type: 'paragraph',
+      children: [
+        {type: 'text', content: 'faz', href: 'http://foo.com'},
+        {type: 'text', content: 'fez', mark: true, href: 'http://bar.com', markClass: 'hello'},
+        {type: 'text', content: 'fiz', href: 'http://disney.com'}
+      ]
+    }
+  ];
+  const actual = renderString(tree(<Article items={items} />));
+  const expected = renderString(tree(<article>
+    <p>
+      <a href='http://disney.com'>faz<mark class='hello'>fez</mark>fiz</a>
+    </p>
+    <p>
+      <a href='http://foo.com'>faz</a>
+      <a href='http://bar.com'><mark class='hello'>fez</mark></a>
+      <a href='http://disney.com'>fiz</a>
+    </p>
+  </article>));
+
+  t.equal(actual, expected);
+  t.end();
+});
+
 test('text with no content', t => {
   const Article = setupArticle({embeds: {}});
   const items = [
