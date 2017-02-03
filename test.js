@@ -638,3 +638,28 @@ test('articleProps', t => {
   t.equal(actual, expected);
   t.end();
 });
+
+test('render plain html with no embeds', t => {
+  t.plan(1);
+
+  const htmlRender = setupArticle.html();
+  const items = [{
+    type: 'paragraph',
+    children: [{
+      type: 'text',
+      content: 'Text'
+    }]
+  }, {
+    type: 'embed',
+    embedType: 'twitter',
+    id: 'twitter-id'
+  }];
+  const expected = renderString(tree(
+    <article><p>Text</p></article>
+  ));
+  const actual = htmlRender(items);
+
+  t.equal(actual, expected);
+
+  t.end();
+});
