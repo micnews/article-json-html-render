@@ -14,7 +14,6 @@ npm install article-json-html-render --save
 
 ```js
 import setupArticle from 'article-json-html-render';
-import setupArticleToHtml from 'article-json-html-render/html';
 import {element, string} from 'deku';
 
 const items = [
@@ -32,7 +31,7 @@ const Article = setupArticle({
 console.log(string.render(<Article items={items} />));
 
 // Render into html
-const renderHtml = setupArticleToHtml();
+const renderHtml = setupArticle.html();
 console.log(renderHtml(items));
 ```
 

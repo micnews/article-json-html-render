@@ -1,6 +1,5 @@
 import test from 'tape';
 import setupArticle from './lib';
-import setupHtmlRender from './lib/html';
 import {renderString, tree} from 'deku';
 import element from 'magic-virtual-element';
 
@@ -643,7 +642,7 @@ test('articleProps', t => {
 test('render plain html with no embeds', t => {
   t.plan(1);
 
-  const htmlRender = setupHtmlRender();
+  const htmlRender = setupArticle.html();
   const items = [{
     type: 'paragraph',
     children: [{

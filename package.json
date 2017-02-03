@@ -4,10 +4,12 @@
   "description": "Base for html-based article-json renderer, such as [article-json-to-amp](https://www.npmjs.com/package/article-json-to-amp)",
   "main": "dist/index.js",
   "scripts": {
-    "test": "semistandard | snazzy && babel-tape-runner test.js | faucet",
+    "test": "npm run lint && babel-tape-runner test.js | faucet",
     "coverage:check": "nyc babel-tape-runner test.js",
     "coverage:open": "npm run coverage:check && nyc report --reporter=lcov && open coverage/lcov-report/index.html",
-    "prepublish": "mkdir -p dist && babel lib --out-dir dist",
+    "prepublish": "npm run build",
+    "lint": "semistandard | snazzy",
+    "build": "mkdir -p dist && babel lib --out-dir dist",
     "posttest": "readme package.json > readme.md"
   },
   "repository": {
